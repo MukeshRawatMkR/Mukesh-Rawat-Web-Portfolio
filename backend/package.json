@@ -37,6 +37,7 @@
     "compression": "^1.7.4",
     "express-mongo-sanitize": "^2.2.0",
     "xss-clean": "^0.1.4"
+    "rss-parser": "^3.13.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2",

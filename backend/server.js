@@ -26,6 +26,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const projectRoutes = require('./routes/projectRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const authRoutes = require('./routes/authRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -125,6 +126,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/projects', projectRoutes);
 app.use('/api/contact', contactLimiter, contactRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/blog', blogRoutes);
 
 // Handle undefined routes
 app.all('*', (req, res) => {

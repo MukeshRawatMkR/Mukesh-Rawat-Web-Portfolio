@@ -6,6 +6,7 @@ require('dotenv').config();
 const User = require('../models/User');
 const Project = require('../models/Project');
 const ContactMessage = require('../models/ContactMessage');
+const BlogPost = require('../models/BlogPost');
 
 // Sample data
 const sampleProjects = [
@@ -90,6 +91,60 @@ const sampleContactMessages = [
   },
 ];
 
+const sampleBlogPosts = [
+  {
+    mediumId: 'sample-blog-1',
+    title: 'Getting Started with React and TypeScript',
+    slug: 'getting-started-with-react-and-typescript',
+    description: 'A comprehensive guide to building modern web applications with React and TypeScript. Learn best practices, common patterns, and advanced techniques.',
+    content: '<p>This is a sample blog post content about React and TypeScript...</p>',
+    excerpt: 'A comprehensive guide to building modern web applications with React and TypeScript.',
+    author: 'Mukesh Rawat',
+    tags: ['react', 'typescript', 'javascript', 'web-development'],
+    categories: ['frontend', 'tutorial'],
+    mediumUrl: 'https://medium.com/@yourusername/getting-started-with-react-and-typescript',
+    imageUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop',
+    publishedAt: new Date('2024-01-15'),
+    readingTime: 8,
+    featured: true,
+    status: 'published',
+  },
+  {
+    mediumId: 'sample-blog-2',
+    title: 'Building Scalable Node.js Applications',
+    slug: 'building-scalable-nodejs-applications',
+    description: 'Learn how to architect and build scalable Node.js applications with proper error handling, logging, and performance optimization.',
+    content: '<p>This is a sample blog post content about Node.js scalability...</p>',
+    excerpt: 'Learn how to architect and build scalable Node.js applications.',
+    author: 'Mukesh Rawat',
+    tags: ['nodejs', 'backend', 'scalability', 'architecture'],
+    categories: ['backend', 'tutorial'],
+    mediumUrl: 'https://medium.com/@yourusername/building-scalable-nodejs-applications',
+    imageUrl: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&h=400&fit=crop',
+    publishedAt: new Date('2024-01-10'),
+    readingTime: 12,
+    featured: false,
+    status: 'published',
+  },
+  {
+    mediumId: 'sample-blog-3',
+    title: 'Modern CSS Techniques for Better UX',
+    slug: 'modern-css-techniques-for-better-ux',
+    description: 'Explore modern CSS features and techniques that can significantly improve user experience and interface design.',
+    content: '<p>This is a sample blog post content about modern CSS...</p>',
+    excerpt: 'Explore modern CSS features and techniques that can significantly improve user experience.',
+    author: 'Mukesh Rawat',
+    tags: ['css', 'ux', 'design', 'frontend'],
+    categories: ['frontend', 'design'],
+    mediumUrl: 'https://medium.com/@yourusername/modern-css-techniques-for-better-ux',
+    imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop',
+    publishedAt: new Date('2024-01-05'),
+    readingTime: 6,
+    featured: true,
+    status: 'published',
+  },
+];
+
 // Connect to database
 const connectDB = async () => {
   try {
@@ -107,6 +162,7 @@ const clearData = async () => {
     await User.deleteMany();
     await Project.deleteMany();
     await ContactMessage.deleteMany();
+    await BlogPost.deleteMany();
     console.log('🗑️  Existing data cleared');
   } catch (error) {
     console.error('❌ Error clearing data:', error);
@@ -155,6 +211,17 @@ const seedContactMessages = async () => {
   }
 };
 
+// Seed blog posts
+const seedBlogPosts = async () => {
+  try {
+    const posts = await BlogPost.insertMany(sampleBlogPosts);
+    console.log(`📝 ${posts.length} blog posts created`);
+    return posts;
+  } catch (error) {
+    console.error('❌ Error creating blog posts:', error);
+  }
+};
+
 // Main seed function
 const seedDatabase = async () => {
   try {
@@ -166,12 +233,14 @@ const seedDatabase = async () => {
     const admin = await seedAdmin();
     const projects = await seedProjects();
     const messages = await seedContactMessages();
+    const blogPosts = await seedBlogPosts();
 
     console.log('\n✅ Database seeding completed successfully!');
     console.log('\n📊 Summary:');
     console.log(`   - Admin user: ${admin ? admin.username : 'Failed'}`);
     console.log(`   - Projects: ${projects ? projects.length : 0}`);
     console.log(`   - Contact messages: ${messages ? messages.length : 0}`);
+    console.log(`   - Blog posts: ${blogPosts ? blogPosts.length : 0}`);
     
     console.log('\n🔑 Admin Credentials:');
     console.log(`   Username: ${process.env.ADMIN_USERNAME || 'admin'}`);
